@@ -31,9 +31,10 @@ protected:
     // TODO: Implement these functions in the child class
     virtual void moveRobot(Movement mov, Turn dir) = 0;
     virtual bool checkWall(Direction dir) = 0;
-    // virtual double distanceToWall(Direction dir) = 0;
+    virtual double distanceToWall(Direction dir) = 0;
 
     // TODO: Add any additional member functions or variables as required
+    void addToLog(LogInfo log);
     void followWall();
     void keyboardController();
     webots::Keyboard *userControl;

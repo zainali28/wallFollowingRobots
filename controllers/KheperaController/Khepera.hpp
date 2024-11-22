@@ -11,7 +11,7 @@ public:
 private:
   void moveRobot(Movement mov, Turn dir) override;
   bool checkWall(Direction dir) override;
-  // double distanceToWall(Direction dir) override;
+  double distanceToWall(Direction dir) override;
 
   // TODO: Add additional functions and members as required
   webots::Motor *leftMotor;

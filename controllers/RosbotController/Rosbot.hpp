@@ -14,4 +14,8 @@ private:
   double distanceToWall(Direction dir) override;
 
   // TODO: Add additional functions and members as required
+  webots::Motor *frontLeftMotor;
+  webots::Motor *frontRightMotor;
+  webots::Motor *rearLeftMotor;
+  webots::Motor *rearRightMotor;
 };

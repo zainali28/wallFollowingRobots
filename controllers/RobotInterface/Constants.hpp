@@ -36,4 +36,4 @@ struct LogInfo
 constexpr int TIME_STEP{64};
 
 // TODO: Add any additional global constants as required
-constexpr float MAX_SPEED{10.0};
+constexpr float MAX_SPEED{20.0};

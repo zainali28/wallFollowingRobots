@@ -35,26 +35,26 @@ bool Khepera::checkWall(Direction dir)
     {
         IRSensorVals[i] = (double)this->IRSensors[i]->getValue();
         IRSensorVals[i] = Khepera::val2dist(IRSensorVals[i]);
-        // std::cout << "[" << i << "]: " << IRSensorVals[i] << std::endl;
+        std::cout << "[" << i << "]: " << IRSensorVals[i] << std::endl;
     }
 
     switch (dir)
     {
     case Direction::FRONT:
     {
-        if (IRSensorVals[0] <= 0.09 || IRSensorVals[1] <= 0.09 || IRSensorVals[2] <= 0.09)
+        if (IRSensorVals[0] <= 0.16 || IRSensorVals[1] <= 0.16 || IRSensorVals[2] <= 0.16)
             return true;
         break;
     }
     case Direction::LEFT:
     {
-        if (IRSensorVals[3] <= 0.09)
+        if (IRSensorVals[3] <= 0.16)
             return true;
         break;
     }
     case Direction::RIGHT:
     {
-        if (IRSensorVals[4] <= 0.09)
+        if (IRSensorVals[4] <= 0.16)
             return true;
         break;
     }
@@ -148,24 +148,28 @@ void Khepera::moveRobot(Movement mov, Turn dir)
     this->rightMotor->setVelocity(rightMotorSpeed * MAX_SPEED);
 }
 
+double Khepera::distanceToWall(Direction dir)
+{
+    switch (dir)
+    {
+    case Direction::FRONT:
+        return this->val2dist((this->IRSensors[0]->getValue()));
+        break;
+    case Direction::LEFT:
+        return this->val2dist((this->IRSensors[3]->getValue()));
+        break;
+    case Direction::RIGHT:
+        return this->val2dist((this->IRSensors[4]->getValue()));
+        break;
+
+    default:
+        break;
+    }
+
+    return -1;
+}
+
 double Khepera::val2dist(double val)
 {
-    const double *lookupTable = this->IRSensors[0]->getLookupTable();
-    const int N = this->IRSensors[0]->getLookupTableSize();
-
-    std::vector<double> valueList = {1023, 1010, 1000, 990, 800, 500, 400, 350, 280, 250, 220, 180, 120};
-    double target = *std::min_element(valueList.begin(), valueList.end(),
-                                      [val](double a, double b)
-                                      {
-                                          return std::abs(a - val) < std::abs(b - val);
-                                      });
-
-    for (int i = 0; i < N * 3; ++i)
-    {
-        if (lookupTable[i] == target)
-        {
-            return lookupTable[i - 1];
-        }
-    }
-    return -1;
+    return 0.2 - ((val / 1023) * 0.2);
 }
